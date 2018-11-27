@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Animated } from 'react-native';
 
-import { Card, CardItem, Button } from 'native-base'
+import { Card, CardItem, Button, Body } from 'native-base'
 import Deck from './Screen/Deck.js'
 
 
@@ -44,7 +44,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Deck
-          data={Data}
+          data={DATA}
           renderCard={this.renderCard}
         />
       </View>
