@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
-import { View, Animated } from 'react-native'
+import { View, Animated, PanResponder } from 'react-native'
 
 class Deck extends Component {
+    constructor(props) {
+        super(props)
+        
+        const panResponder = PanResponder.create({
+            onMoveShouldSetPanResponder: () => true,
+            onPanResponderMove: (event, gesture) => {
+
+            },
+            onPanResponderRelease: () => { }
+        })
+
+        this.state = {
+            panResponder
+        }
+    }
 
     renderCards() {
         return this.props.data.map(item => {
@@ -11,7 +26,7 @@ class Deck extends Component {
 
     render() {
         return (
-            <View>
+            <View {...this.state.panResponder.panHandlers}>
                 {this.renderCards()}
             </View>
         );

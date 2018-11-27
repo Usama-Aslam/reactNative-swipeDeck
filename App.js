@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, Animated } from 'react-native';
 
-import { Card, Button } from 'react-native-elements'
+import { Card, CardItem, Button } from 'native-base'
 import Deck from './Screen/Deck.js'
 
 
@@ -21,18 +21,21 @@ export default class App extends React.Component {
 
   renderCard(item) {
     return (
-      <Text>{item.text}</Text>
-      //style cards here
-      <Card
-        title={item.text}
-        image={{ uri: item.uri }}>
-        <Text style={{ marginBottom: 10 }}>
-          This is demo text
-        </Text>
-        <Button
-          icon={{ name: 'code' }}
-          backgroundColor='#03A9F4'
-          title='VIEW NOW' />
+      <Card>
+        <CardItem cardBody>
+          <Image source={{ uri: item.uri }} style={{ height: 200, width: null, flex: 1 }} />
+        </CardItem>
+        <CardItem>
+          <Body>
+            <Text>{item.text}</Text>
+            <Text>this is dummy item</Text>
+          </Body>
+        </CardItem>
+        <CardItem>
+          <Button>
+            <Text>View on</Text>
+          </Button>
+        </CardItem>
       </Card>
     )
   }
