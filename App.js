@@ -13,7 +13,7 @@ const DATA = [
   { id: 5, text: 'Card #5', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-04.jpg' },
   { id: 6, text: 'Card #6', uri: 'http://www.fluxdigital.co/wp-content/uploads/2015/04/Unsplash.jpg' },
   { id: 7, text: 'Card #7', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-09.jpg' },
-  { id: 8, text: 'Card #8', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' },
+  { id: 8, text: 'Card #8', uri: 'http://imgs.abduzeedo.com/files/paul0v2/unsplash/unsplash-01.jpg' }
 ];
 
 
@@ -40,7 +40,7 @@ export default class App extends React.Component {
     )
   }
 
-  renderCard(item) {
+  renderNoMoreCard() {
     return (
       <Card>
         <CardItem cardBody>
@@ -74,6 +74,7 @@ export default class App extends React.Component {
           renderCard={this.renderCard}
           onSwipeLeft={this.onSwipeLeft}
           onSwipeRight={this.onSwipeRight}
+          renderNoMoreCard={this.renderNoMoreCard}
         />
       </View>
     );
@@ -83,8 +84,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
 });
