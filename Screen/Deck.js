@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { View, Animated, PanResponder, Dimensions } from 'react-native'
 
-const SCREEN_WIDTH = Dimensions.get('window').width
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
+const SWIPE_DURATION = 250;
 
 class Deck extends Component {
+    static defaultProps = {
+        onSwipeLeft: () => { },
+        onSwipeLeft: () => { }
+    }
+
     constructor(props) {
         super(props)
 
@@ -13,15 +20,51 @@ class Deck extends Component {
             onPanResponderMove: (event, gesture) => {
                 position.setValue({ x: gesture.dx, y: gesture.dy })
             },
-            onPanResponderRelease: () => {
-                this.positionReset()
+            onPanResponderRelease: (event, gesture) => {
+                if (gesture.dx > SWIPE_THRESHOLD) {
+                    this.forceSwipe('right')
+                }
+                else if (gesture.dx < -SWIPE_THRESHOLD) {
+                    this.forceSwipe('left')
+                }
+                else {
+                    this.positionReset()
+                }
             }
         });
 
         this.state = {
             panResponder,
-            position
+            position,
+            index: 0
         }
+    }
+
+    forceSwipe(direction) {
+        const { position } = this.state
+        let width = direction == 'left' ? -SCREEN_WIDTH : SCREEN_WIDTH
+
+        Animated.timing(position, {
+            toValue: { x: width, y: 0 },
+            duration: SWIPE_DURATION
+        }).start(() => this.onSwipeComplete(direction))
+    }
+
+
+    onSwipeComplete(direction) {
+        const { onSwipeLeft, onSwipeRight, data } = this.props
+        const { index } = this.state
+
+        const item = data[index];
+
+        direction == 'left' ? onSwipeLeft(item) : onSwipeRight(item)
+
+        this.state.position.setValue({ x: 0, y: 0 })
+
+        this.setState({
+            index: index + 1
+        })
+
     }
 
     positionReset() {
@@ -46,8 +89,15 @@ class Deck extends Component {
     }
 
     renderCards() {
-        return this.props.data.map((item, index) => {
-            if (index == 0) {
+        if (this.state.index > this.props.data.length) {
+            return this.props.renderNoMoreCard()
+        }
+        return this.props.data.map((item, i) => {
+            if (i < this.state.index) {
+                return null
+            }
+
+            if (i == this.state.index) {
                 return <Animated.View
                     key={item.id}
                     {...this.state.panResponder.panHandlers}
@@ -56,6 +106,7 @@ class Deck extends Component {
                     {this.props.renderCard(item)}
                 </Animated.View>
             }
+
             return this.props.renderCard(item)
         })
     }

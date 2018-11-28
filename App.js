@@ -22,10 +22,10 @@ export default class App extends React.Component {
   renderCard(item) {
     return (
       <Card>
-        <CardItem cardBody>
+        <CardItem>
           <Image source={{ uri: item.uri }} style={{ height: 200, width: null, flex: 1 }} />
         </CardItem>
-        <CardItem>
+        <CardItem cardBody>
           <Body>
             <Text>{item.text}</Text>
             <Text>this is dummy item</Text>
@@ -40,12 +40,40 @@ export default class App extends React.Component {
     )
   }
 
+  renderCard(item) {
+    return (
+      <Card>
+        <CardItem cardBody>
+          <Body>
+            <Text>No More Card</Text>
+            <Text>Click Below To Get More</Text>
+          </Body>
+        </CardItem>
+        <CardItem>
+          <Button>
+            <Text>Get More</Text>
+          </Button>
+        </CardItem>
+      </Card>
+    )
+  }
+
+  onSwipeLeft() {
+    return <View></View>
+  }
+
+  onSwipeRight() {
+    return <View></View>
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Deck
           data={DATA}
           renderCard={this.renderCard}
+          onSwipeLeft={this.onSwipeLeft}
+          onSwipeRight={this.onSwipeRight}
         />
       </View>
     );
